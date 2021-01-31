@@ -1,23 +1,29 @@
 #!/bin/python
-def six_one():
-    with open('./Data/portfolio.csv', 'rt') as file:
-        headers = next(file).replace("\n","").split(",")
-        shares = []
-        for line in file:
-            line = line.replace("\n","").split(",")
-            index = 0
-            share = {}
-            for header in headers:
-                share[header] = line[index]
-                index += 1
+import sys
+
+def six_one(filename):
+    try:
+        with open(filename, 'rt') as file:
+            headers = next(file).replace("\n","").split(",")
+            shares = []
+            for line in file:
+                line = line.replace("\n","").split(",")
+                index = 0
+                share = {}
+                for header in headers:
+                    share[header] = line[index]
+                    index += 1
         
-            shares.append(share)
+                shares.append(share)
+        cost = 0
+        for share in shares:
+            cost += float(share['price']) * float(share ['shares'])
+            print(share.get('prizeee', "None"))
 
-    cost = 0
-    for share in shares:
-        cost += float(share['price']) * float(share ['shares'])
+        print(f'Total cost of portfolio: {cost}')
+    except ValueError:
+        print("FFFF")
 
-    print(f'Total cost of portfolio: {cost}')
 
 def six_two():
     import gzip
@@ -25,5 +31,28 @@ def six_two():
         for line in file:
             print(line)
 
-six_two()
+def sets():
+    test = {
+            "john": 69
+            }
+    s1 = set([1,3,7,8])
+    s2 = set([2,6,7,8,9,5]) 
+    print(f'Union: {s1 | s2} \nIntersection: {s1 & s2} \nDifference: {s1 - s2}')
+    print('iets' in test)
 
+def read_csv(filename):
+    import csv
+    with open(filename, 'r') as file:
+        reader = csv.reader(file)
+        headers = next(reader)
+        print(f'Headers: {headers}')
+        for row in reader:
+            print(row)
+
+def main():
+    if len(sys.argv) == 2:
+        filename = sys.argv[1]
+
+    read_csv(filename)
+
+main()
