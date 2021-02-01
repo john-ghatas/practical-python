@@ -42,17 +42,31 @@ def sets():
 
 def read_csv(filename):
     import csv
+
+    portfolio = []
     with open(filename, 'r') as file:
         reader = csv.reader(file)
         headers = next(reader)
-        print(f'Headers: {headers}')
         for row in reader:
-            print(row)
+            share = ()
+            for item in row:
+                share += (item, )
+            portfolio.append(share)
+
+    return portfolio
 
 def main():
+    from collections import Counter
     if len(sys.argv) == 2:
         filename = sys.argv[1]
 
-    read_csv(filename)
+    portfolio = read_csv(filename)
+
+    holdings = Counter()
+    for entry in portfolio:
+        name, shares, price = entry
+        holdings[name] += int(shares)
+
+    print(holdings)
 
 main()
